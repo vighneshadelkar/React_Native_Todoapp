@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, Button, Keyboard } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, Button, Keyboard, ScrollView } from 'react-native';
 import Task from './components/Task';
 import { useState } from 'react';
 ;
@@ -10,8 +10,10 @@ export default function App() {
 
   const handleInput = () => {
     Keyboard.dismiss();
-    setList([...list, task]);
-    setTask(null);
+    if (task) {
+      setList([...list, task]);
+      setTask(null);
+    }
   }
   return (
     <View style={styles.container}>
@@ -19,23 +21,23 @@ export default function App() {
         <View style={styles.sectionTitle}>
           {/* <Text>Tpdays task</Text> */}
           <Text style={styles.header}>Todo list:</Text>
-          <View style={styles.items}>
+          <ScrollView style={styles.items}>
             {
               list.map((item, index) => {
                 return <Task key={index} text={item} />
               })
             }
-          </View>
+          </ScrollView >
         </View>
       </View>
       <KeyboardAvoidingView style={styles.inputView}>
-        <TextInput 
-        placeholder='write a text' 
-        style={styles.input} 
-        value={task} 
-        onChangeText={text => setTask(text)}>
+        <TextInput
+          placeholder='write a text'
+          style={styles.input}
+          value={task}
+          onChangeText={text => setTask(text)}>
         </TextInput>
-        <Button title='+' onPress={handleInput} />
+        <Button title='+' onPress={handleInput} style={styles.button} color={'#007AFF'} />
       </KeyboardAvoidingView>
     </View>
   );
@@ -45,6 +47,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  button:{
+    borderRadius: "50%",
+    borderColor: "black",
+    borderWidth: 3,
+    width1:10,
+    height: 10,
   },
   header: {
     fontSize: 24,
